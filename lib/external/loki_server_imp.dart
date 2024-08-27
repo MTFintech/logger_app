@@ -2,28 +2,25 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:logger_app/external/loki_server.dart';
 
-import 'logger_app.dart';
-import 'logs_storage.dart';
+import '../domain/logger_usecase_imp.dart';
+import '../infra/logs_storage.dart';
 
 
-class LokiServer extends LogOutput{
+/// * Callback logger
+class LokiServerImp implements LokiServer{
 
   final String lokiUrl;
   final Map<String, String> labels;
   late String _logsMessage;
-  LokiServer(this.lokiUrl, this.labels);
+  LokiServerImp(this.lokiUrl, this.labels);
   var logsStorage = getItLogger<LogsStorage>();
 
   final logger = Logger();
 
 @override
-  void output(OutputEvent event) {
-    final logMessage = event.lines.join('\n');
-    _sendLogToLoki(logMessage);
-  }
-
-void _sendLogToLoki(String logMessage) async {
+  void sendLogToLoki(String logMessage) async {
   final url = lokiUrl;
   final headers = {'Content-Type': 'application/json'};
   _logsMessage = logMessage;
@@ -31,12 +28,13 @@ void _sendLogToLoki(String logMessage) async {
   final body = jsonEncode({
     'streams': [
       {
-        'stream': {'app': 'test_loki_2.0'},
+        'stream': {'app': 'Logger_app_mtbank'},
         'values': [
           [(DateTime.now().millisecondsSinceEpoch * 1000000).toString() , logMessage]
         ]}
     ]
   });
+
 
   try {
     final response = await http.post(Uri.parse(url), headers: headers, body: body);
