@@ -23,7 +23,7 @@ class LoggerAppImp implements LoggerApp{
     lokiURL = 'https://${user.userId}:${user.key}@logs-prod-024.grafana.net/loki/api/v1/push';
 
     getItLogger.registerSingleton<LogsStorage>(LogsStorage(this));
-    getItLogger.registerSingleton<LokiServer>(LokiServerImp(lokiURL, {'app': 'logger_app_mtbank'},));
+    getItLogger.registerSingleton<LokiServer>(LokiServerImp(lokiURL, {'app': user.applicationName},));
     getItLogger.registerSingleton<LogLoki>(LogLoki(getItLogger<LokiServer>()));
 
     loki = getItLogger<LogLoki>();
