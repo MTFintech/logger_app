@@ -14,7 +14,6 @@ import 'logger_usecase.dart';
 final getItLogger = GetIt.asNewInstance();
 String lokiURL = '';
 late LogLoki loki;
-
 class LoggerAppImp implements LoggerApp{
 
   LoggerAppImp({

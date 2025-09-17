@@ -28,7 +28,7 @@ class LokiServerImp implements LokiServer{
   final body = jsonEncode({
     'streams': [
       {
-        'stream': {'app': 'Logger_app_mtbank'},
+        'stream': {'app': labels['app']},
         'values': [
           [(DateTime.now().millisecondsSinceEpoch * 1000000).toString() , logMessage]
         ]}
