@@ -17,18 +17,17 @@ class LokiServerImp implements LokiServer{
   LokiServerImp(this.lokiUrl, this.labels);
   var logsStorage = getItLogger<LogsStorage>();
 
-  final logger = Logger();
+  final logger = Logger(filter: ProductionFilter());
 
 @override
   void sendLogToLoki(String logMessage) async {
   final url = lokiUrl;
   final headers = {'Content-Type': 'application/json'};
   _logsMessage = logMessage;
-
   final body = jsonEncode({
     'streams': [
       {
-        'stream': {'app': 'Logger_app_mtbank'},
+        'stream': {'app': labels["app"]},
         'values': [
           [(DateTime.now().millisecondsSinceEpoch * 1000000).toString() , logMessage]
         ]}

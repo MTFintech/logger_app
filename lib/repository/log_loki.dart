@@ -12,6 +12,7 @@ class LogLoki extends LogOutput{
   LogLoki(this.lokiServer){
 
     logger = Logger(
+        filter: ProductionFilter(),
         printer: PrettyPrinter(
           colors: false,
           printTime: true
