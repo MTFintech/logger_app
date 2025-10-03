@@ -12,9 +12,8 @@ import 'logger_usecase.dart';
 
 
 final getItLogger = GetIt.asNewInstance();
-String lokiURL = '';
+late String lokiURL;
 late LogLoki loki;
-
 class LoggerAppImp implements LoggerApp{
 
   LoggerAppImp({
@@ -30,7 +29,7 @@ class LoggerAppImp implements LoggerApp{
     var logStore = getItLogger<LogsStorage>();
     logStore.logsStorageConfig();
 
-    print(lokiURL);
+    print("Logger Loki configured in URL: $lokiURL \n Name application: ${user.applicationName}");
   }
 
   @override
